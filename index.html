@@ -45,6 +45,28 @@
             justify-content: space-between;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
+/* Responsivitas untuk layar kecil */
+@media (max-width: 768px) {
+    header .logo {
+        justify-content: center; /* Pusatkan logo di layar kecil */
+        gap: 5px; /* Mengurangi jarak antara logo dan teks */
+    }
+
+    header .info {
+        justify-content: center; /* Pusatkan info pada layar kecil */
+    }
+
+    header .search-box {
+        justify-content: center; /* Pusatkan search box */
+    }
+
+    header .search-box input {
+        width: 80%; /* Menyesuaikan lebar input pada layar kecil */
+    }
+}
+
+        }
         header .logo {
             display: flex;
             align-items: center;
