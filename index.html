@@ -58,20 +58,48 @@
             align-items: center;
             gap: 15px;
         }
+        header .info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Membuat elemen lebih fleksibel ketika ruang terbatas */
+    justify-content: flex-start; /* Menjaga elemen tetap rapi di kiri */
+    width: 100%; /* Pastikan lebar 100% agar bisa menyesuaikan */
+}
         header .info span {
             font-size: 14px;
         }
+        header .info span {
+    font-size: 14px;
+    white-space: nowrap; /* Mencegah teks agar tidak terpotong */
+}
         header .search-box {
             display: flex;
             align-items: center;
         }
+
         header .search-box input {
             padding: 5px;
             font-size: 14px;
             border: ;
             border-radius: 5px;
             margin-right: 5px;
+            header .search-box input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc; /* Menambahkan border untuk input */
+    border-radius: 5px;
+    flex-grow: 1; /* Membuat input mengisi ruang yang tersedia */
+}
         }
+        header .search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Memberi jarak antara input dan tombol */
+    flex-wrap: wrap; /* Memungkinkan search box bergeser jika ruang terbatas */
+    width: 100%; /* Agar search box bisa menyesuaikan dengan layar */
+    margin-top: 10px; /* Memberi ruang antara elemen lain di header */
+}
         header .search-box button {
             padding: 5px 10px;
             font-size: 14px;
@@ -80,6 +108,26 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            header .search-box button {
+    padding: 8px 15px;
+    font-size: 14px;
+    color: white;
+    background-color: #03004d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+/* Agar header tetap responsif di layar kecil */
+@media (max-width: 768px) {
+    header .info {
+        justify-content: space-between;
+    }
+
+    header .search-box {
+        justify-content: center;
+    }
+}
         }
         nav {
             display: flex;
@@ -271,6 +319,17 @@
             margin: 0;
         }
 
+@media (max-width: 480px) {
+    .berita h3 {
+        font-size: 1.2em; /* Menurunkan ukuran font lebih kecil untuk perangkat sangat kecil */
+    }
+
+    .foto-container h4 {
+        font-size: 1em; /* Menyesuaikan ukuran nama kepala sekolah */
+    }
+}
+
+
         /* Foto Kepala Sekolah */
         .foto-container {
             flex: 1;
@@ -290,6 +349,28 @@
             font-size: 1.2em;
             color: #004d40;
         }
+        @media (max-width: 768px) {
+    .content {
+        flex-direction: column; /* Membuat konten menjadi kolom agar lebih fleksibel */
+    }
+
+    .berita, .foto-container {
+        flex: 1; /* Berita dan foto akan mengambil ruang yang sama */
+        min-width: 100%; /* Menjadikan lebar elemen penuh di layar kecil */
+    }
+
+    .berita h3 {
+        font-size: 1.5em; /* Menyesuaikan ukuran font di layar kecil */
+    }
+
+    .berita .berita-item h4 {
+        font-size: 1.1em; /* Menyesuaikan ukuran font judul berita */
+    }
+
+    .foto-container img {
+        width: 80%; /* Menurunkan ukuran foto pada perangkat kecil */
+    }
+}
     </style>
 </head>
 <body>
