@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
     <title>SD Negeri 2 Karangmangu</title>
     <style>
         body {
@@ -44,28 +43,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-/* Responsivitas untuk layar kecil */
-@media (max-width: 768px) {
-    header .logo {
-        justify-content: center; /* Pusatkan logo di layar kecil */
-        gap: 5px; /* Mengurangi jarak antara logo dan teks */
-    }
-
-    header .info {
-        justify-content: center; /* Pusatkan info pada layar kecil */
-    }
-
-    header .search-box {
-        justify-content: center; /* Pusatkan search box */
-    }
-
-    header .search-box input {
-        width: 80%; /* Menyesuaikan lebar input pada layar kecil */
-    }
-}
-
+            
         }
         header .logo {
             display: flex;
@@ -74,54 +52,21 @@
         header .logo img {
             height: 50px;
             margin-right: 10px;
+            
         }
         header .info {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        header .info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap; /* Membuat elemen lebih fleksibel ketika ruang terbatas */
-    justify-content: flex-start; /* Menjaga elemen tetap rapi di kiri */
-    width: 100%; /* Pastikan lebar 100% agar bisa menyesuaikan */
-}
+    
         header .info span {
             font-size: 14px;
         }
-        header .info span {
-    font-size: 14px;
-    white-space: nowrap; /* Mencegah teks agar tidak terpotong */
-}
         header .search-box {
             display: flex;
             align-items: center;
         }
-
-        header .search-box input {
-            padding: 5px;
-            font-size: 14px;
-            border: ;
-            border-radius: 5px;
-            margin-right: 5px;
-            header .search-box input {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc; /* Menambahkan border untuk input */
-    border-radius: 5px;
-    flex-grow: 1; /* Membuat input mengisi ruang yang tersedia */
-}
-        }
-        header .search-box {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Memberi jarak antara input dan tombol */
-    flex-wrap: wrap; /* Memungkinkan search box bergeser jika ruang terbatas */
-    width: 100%; /* Agar search box bisa menyesuaikan dengan layar */
-    margin-top: 10px; /* Memberi ruang antara elemen lain di header */
-}
         header .search-box button {
             padding: 5px 10px;
             font-size: 14px;
@@ -130,27 +75,79 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            header .search-box button {
-    padding: 8px 15px;
+        }
+
+        header .search-box {
+        justify-content: center;
+        }
+
+/* Logo */
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara logo dan teks */
+}
+
+header .logo img {
+    height: 50px;
+}
+
+/* Info Section */
+header .info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1; /* Memastikan info mengisi ruang sisa */
+    text-align: left; /* Teks tetap rata kiri */
+}
+
+/* Search Box */
+header .search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara input dan tombol */
+    flex-shrink: 0; /* Tidak mengecil */
+}
+
+/* Input dan Tombol */
+header .search-box input {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc; /* Warna tepi default */
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+header .search-box button {
+    padding: 5px 10px;
     font-size: 14px;
     color: white;
-    background-color: #03004d;
+    background-color: #03004d; /* Warna biru tetap */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 5px;
 }
-/* Agar header tetap responsif di layar kecil */
+
+/* Responsivitas */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column; /* Elemen ditata vertikal pada layar kecil */
+        align-items: center; /* Pusatkan elemen */
+    }
+
     header .info {
-        justify-content: space-between;
+        justify-content: center; /* Elemen info tetap di tengah */
+        text-align: center; /* Teks rata tengah */
+        margin-top: 10px; /* Memberi jarak dengan elemen atas */
     }
 
     header .search-box {
-        justify-content: center;
+        justify-content: center; /* Pusatkan elemen */
+        margin-top: 10px; /* Jarak tambahan */
     }
 }
-        }
+
+        
         nav {
             display: flex;
             justify-content: center;
@@ -392,7 +389,49 @@
     .foto-container img {
         width: 80%; /* Menurunkan ukuran foto pada perangkat kecil */
     }
-}
+  }
+
+        /* Carousel Guru */
+        .guru-container {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .guru-slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .guru {
+            min-width: 100%;
+        }
+
+        .guru img {
+            width: 3cm;
+            height: 4cm;
+            object-fit: cover;
+            border:2px solid #ccc;
+        }
+
+
+        .guru p {
+            margin-top: 10px;
+        }
+
+        /* Grid Layout untuk kolom kedua */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr; /* Menjadi 1 kolom di layar kecil */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -472,6 +511,24 @@
         </div>
     </div>
     </section>
+<!-- Foto Guru-guru -->
+<div class="guru-container">
+    <div class="guru-slide">
+        <div class="guru">
+            <img src="fotosaya.png" alt="Guru 1">
+            <p>Yadi Cahyadi, S.Pd</p>
+        </div>
+        <div class="guru">
+            <img src="uussambas.jpeg" alt="Guru 2">
+            <p>Uus Sambas, S.Pd</p>
+        </div>
+        <div class="guru">
+            <img src="guru3.jpg" alt="Guru 3">
+            <p>Yanti Sukmayanti, S.Pd</p>
+        </div>
+        <!-- Tambahkan lebih banyak guru jika diperlukan -->
+    </div>
+</div>
 
     <!-- Galeri Section -->
     <section id="gallery">
@@ -505,6 +562,20 @@
 <footer>
     <p>Copyright © 2024 SD Negeri 2 Karangmangu | Template by sdnegeri2karangmangu.</p>
 </footer>
+<script>
+    let currentGuruIndex = 0;
+    const guruSlides = document.querySelectorAll(".guru");
+    const totalGuruSlides = guruSlides.length;
+
+    function moveToNextGuru() {
+        currentGuruIndex = (currentGuruIndex + 1) % totalGuruSlides;
+        const guruOffset = -currentGuruIndex * 100;
+        document.querySelector(".guru-slide").style.transform = `translateX(${guruOffset}%)`;
+    }
+
+    // Ganti slide guru setiap 5 detik
+    setInterval(moveToNextGuru, 5000);
+</script>
 
 <script>
     let currentIndex = 0;
