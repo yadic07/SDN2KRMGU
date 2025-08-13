@@ -7,7 +7,7 @@
   <title>SD Negeri 2 Karangmangu — Sekolah Unggul, Berkarakter</title>
   <meta name="description" content="Website resmi SD Negeri 2 Karangmangu. PPDB, pengumuman, kalender akademik, berita, galeri, e-learning, dan layanan sekolah." />
   <meta name="color-scheme" content="light dark" />
-  <link rel="icon" href="logosdn2krmgu.png" />
+  <link rel="icon" href="logosekolah.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -181,6 +181,48 @@
       .ticker .items{animation: none}
       .news .thumb img{transition:none}
     }
+    /* DEFAULT (kompatibel luas) */
+.menu.mobile{
+  position: fixed;
+  top: var(--nav-h);
+  right: 0;
+  left: 0;
+  /* Fallback tinggi menu: vh biasa (paling kompatibel) */
+  height: calc(100vh - var(--nav-h));
+
+  /* Safe area fallback dulu */
+  padding-bottom: 12px;
+
+  overflow: auto;
+  background: var(--card);
+  padding: .8rem;
+  gap: .4rem;
+  border-radius: 0;
+  border: 0;
+  box-shadow: var(--shadow);
+}
+
+/* Safari “small viewport” (svh) bila tersedia */
+@supports (height: 100svh) {
+  .menu.mobile{
+    height: calc(100svh - var(--nav-h));
+  }
+}
+
+/* Viewport dinamis modern (dvh) bila tersedia — dipisah agar VS Code tidak merah */
+@supports (height: 100dvh) {
+  .menu.mobile{
+    height: calc(100dvh - var(--nav-h));
+  }
+}
+
+/* Safe-area notch iPhone tanpa argumen fallback (lebih diterima lint) */
+@supports (padding-bottom: calc(env(safe-area-inset-bottom) + 12px)) {
+  .menu.mobile{
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+  }
+}
+
   </style>
 </head>
 <body>
@@ -215,7 +257,7 @@
     <div class="container">
       <nav class="nav" aria-label="Menu utama">
         <a class="brand" href="#">
-          <img src="logosdn2krmgu.png" alt="Logo SD Negeri 2 Karangmangu" />
+          <img src="logosekolah.png" alt="Logo SD Negeri 2 Karangmangu" />
           <span class="title">
             <b>SD Negeri 2 Karangmangu</b>
             <span>Unggul • Berkarakter • Berprestasi</span>
@@ -859,5 +901,157 @@ END:VCALENDAR`.replace(/\n/g,"\r\n");
     document.getElementById('openPPDB2')?.addEventListener('click',openPPDB);
     document.getElementById('ppdbClose')?.addEventListener('click',()=>ppdbDialog.close());
   </script>
+  <script>
+/* ==== Helper: hormati preferensi Reduce Motion ==== */
+function prefersReduceMotion(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+/* ==== HERO slider: pause saat off-screen & hormati reduce-motion ==== */
+(function(){
+  const track = document.getElementById('heroCarousel');
+  if(!track) return;
+
+  const dots = document.getElementById('heroDots');
+  const prev = document.getElementById('heroPrev');
+  const next = document.getElementById('heroNext');
+  const slides = Array.from(track.children);
+
+  let idx=0, timer=null, visible=true;
+
+  function renderDots(){
+    if(!dots) return;
+    dots.innerHTML='';
+    slides.forEach((_,i)=>{
+      const b=document.createElement('button');
+      b.type='button'; b.setAttribute('aria-label','Ke slide '+(i+1));
+      b.addEventListener('click',()=>go(i));
+      dots.appendChild(b);
+    });
+  }
+  function update(){
+    track.style.transform = `translateX(-${idx*100}%)`;
+    if(dots) [...dots.children].forEach((d,i)=>d.setAttribute('aria-current', String(i===idx)));
+  }
+  function go(i){ idx = (i+slides.length)%slides.length; update(); }
+  function step(){ go(idx+1); }
+
+  function start(){
+    stop();
+    if (prefersReduceMotion() || !visible) return; // jangan autoplay
+    timer = setInterval(step, 5000);
+  }
+  function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+
+  prev?.addEventListener('click',()=>go(idx-1));
+  next?.addEventListener('click',()=>go(idx+1));
+  track.addEventListener('mouseenter', stop);
+  track.addEventListener('mouseleave', start);
+  document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
+
+  // Pause saat tidak terlihat
+  const io = new IntersectionObserver(([en])=>{ visible = en.isIntersecting; visible ? start() : stop(); }, {threshold: 0.3});
+  io.observe(track.parentElement); // observe kontainer media-hero
+
+  renderDots(); update(); start();
+})();
+
+/* ==== Galeri Atas: autoplay aman (tidak menggulung halaman) ==== */
+/* kalau kamu SUDAH pakai versi “aman” sebelumnya, lewati blok ini */
+(function(){
+  const track = document.getElementById('hgallery');
+  if(!track) return;
+  const items = Array.from(track.children);
+  if(!items.length) return;
+
+  let idx=0, timer=null, visible=true;
+
+  function centerTo(el){
+    const r = track.getBoundingClientRect(), i = el.getBoundingClientRect();
+    const delta = (i.left - r.left) - (r.width/2 - i.width/2);
+    track.scrollBy({ left: delta, behavior: 'smooth' });
+  }
+  function go(i){ idx = (i%items.length + items.length) % items.length; centerTo(items[idx]); }
+  function step(){ go(idx+1); }
+  function start(){ stop(); if (prefersReduceMotion() || !visible) return; timer = setInterval(step, 5000); }
+  function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+
+  track.addEventListener('mouseenter', stop);
+  track.addEventListener('mouseleave', start);
+  track.addEventListener('touchstart', stop, {passive:true});
+  track.addEventListener('touchend', start, {passive:true});
+  document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
+
+  const io = new IntersectionObserver(([en])=>{ visible = en.isIntersecting; visible ? start() : stop(); }, {threshold: 0.15});
+  io.observe(track);
+
+  go(0); start();
+  window.addEventListener('resize', ()=>centerTo(items[idx]));
+})();
+
+/* ==== TEACHERS & GALERI SEKOLAH: tambahkan guard reduce-motion + IO ==== */
+(function(){
+  // Teachers
+  const track = document.getElementById('teacherTrack');
+  if(track){
+    const cards = Array.from(track.children); if(cards.length){
+      let idx=0, dir=1, t=null, visible=true;
+      function center(el){ const x=el.offsetLeft-(track.clientWidth-el.clientWidth)/2; track.scrollTo({left:Math.max(0,x),behavior:'smooth'}); }
+      function go(i){ idx=(i%cards.length+cards.length)%cards.length; center(cards[idx]); }
+      function step(){ if(idx===cards.length-1) dir=-1; else if(idx===0) dir=1; go(idx+dir); }
+      function start(){ stop(); if (prefersReduceMotion() || !visible) return; t=setInterval(step,5000); }
+      function stop(){ if(t){ clearInterval(t); t=null; } }
+      track.addEventListener('mouseenter',stop);
+      track.addEventListener('mouseleave',start);
+      track.addEventListener('touchstart',stop,{passive:true});
+      track.addEventListener('touchend',start,{passive:true});
+      document.addEventListener('visibilitychange',()=>{document.hidden?stop():start();});
+      window.addEventListener('resize',()=>center(cards[idx]));
+
+      const io=new IntersectionObserver(([en])=>{visible=en.isIntersecting; visible?start():stop();},{threshold:.2});
+      io.observe(track);
+
+      go(0); start();
+    }
+  }
+
+  // Galeri Sekolah
+  const rail = document.getElementById('galleryRail');
+  const dots = document.getElementById('gDots');
+  const prev = document.getElementById('gPrev');
+  const next = document.getElementById('gNext');
+  if(rail){
+    const items = Array.from(rail.children);
+    if(items.length){
+      let idx=0, dir=1, t=null, visible=true;
+      function center(el){ const R=rail.getBoundingClientRect(), I=el.getBoundingClientRect(); const delta=(I.left-R.left)-(R.width/2-I.width/2); rail.scrollBy({left:delta,behavior:'smooth'}); }
+      function go(i){ idx=(i%items.length+items.length)%items.length; center(items[idx]); updateDots(); }
+      function step(){ if(idx===items.length-1) dir=-1; else if(idx===0) dir=1; go(idx+dir); }
+      function start(){ stop(); if (prefersReduceMotion() || !visible) return; t=setInterval(step,5000); }
+      function stop(){ if(t){ clearInterval(t); t=null; } }
+      function updateDots(){ if(!dots) return; [...dots.children].forEach((d,i)=>d.setAttribute('aria-current', String(i===idx))); }
+      function renderDots(){ if(!dots) return; dots.innerHTML=''; items.forEach((_,i)=>{const b=document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Ke item '+(i+1)); b.addEventListener('click',()=>go(i)); dots.appendChild(b);}); }
+
+      prev?.addEventListener('click',()=>{dir=-1; step();});
+      next?.addEventListener('click',()=>{dir= 1; step();});
+      rail.addEventListener('mouseenter',stop);
+      rail.addEventListener('mouseleave',start);
+      rail.addEventListener('touchstart',stop,{passive:true});
+      rail.addEventListener('touchend',start,{passive:true});
+      document.addEventListener('visibilitychange',()=>{document.hidden?stop():start();});
+      window.addEventListener('resize',()=>center(items[idx]));
+
+      const io=new IntersectionObserver(([en])=>{visible=en.isIntersecting; visible?start():stop();},{threshold:.15});
+      io.observe(rail);
+
+      renderDots(); go(0); start();
+    }
+  }
+})();
+
+/* ==== Cegah link dummy '#' menggeser ke atas ==== */
+document.querySelectorAll('a[href="#"]').forEach(a=>{
+  a.addEventListener('click', e => e.preventDefault());
+});
+</script>
+
 </body>
 </html>
