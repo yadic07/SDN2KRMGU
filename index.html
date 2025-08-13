@@ -222,6 +222,42 @@
     padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
   }
 }
+/* === PORTAL PEMBELAJARAN RESPONSIF (tanpa ubah HTML) === */
+/* Paksa 1 kolom di HP */
+#elearning .grid{
+  grid-template-columns: 1fr !important; /* override inline style lama */
+  gap: 1rem;
+}
+
+/* Tablet potret: 2 kolom */
+@media (min-width: 520px){
+  #elearning .grid{
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Desktop: 3 kolom */
+@media (min-width: 900px){
+  #elearning .grid{
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Biar kartu rapi & tinggi seragam */
+#elearning .card{
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+#elearning .card h3{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.06rem;
+}
+#elearning .card p{ margin: 0; }
 
   </style>
 </head>
@@ -1055,3 +1091,4 @@ document.querySelectorAll('a[href="#"]').forEach(a=>{
 
 </body>
 </html>
+
